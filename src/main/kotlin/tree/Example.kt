@@ -32,6 +32,15 @@ class Tree<T : Any>(
         }
     }
 
+    fun search(value: T): Tree<T>? {
+        var result: Tree<T>? = null
+        forEachLevelOrder {
+            if (value == it.value)
+                result = it
+        }
+        return result
+    }
+
 }
 
 fun generateNodeNumbers(): Tree<Pair<Int, Int>> {
@@ -62,6 +71,7 @@ fun generateNodeNumbers(): Tree<Pair<Int, Int>> {
 
 fun main() {
     val trees = generateNodeNumbers()
+
     val listOfPairs = mutableListOf<Pair<Int, Int>>()
     trees.forEachDeepFirst {
         listOfPairs.add(it.value)
@@ -71,9 +81,13 @@ fun main() {
         val sum = it.value.sumOf { it.second }
         result.add(sum / it.value.size)
     }
-    print(result)
 
-//    trees.forEachLevelOrder {
-//        println(it.value)
-//    }
+    trees.forEachLevelOrder {
+        println(it.value)
+    }
+    val searchResult = trees.search(Pair(2, 7))?.value
+    searchResult?.let {
+        print(it)
+    } ?: print("cannot found")
+
 }
