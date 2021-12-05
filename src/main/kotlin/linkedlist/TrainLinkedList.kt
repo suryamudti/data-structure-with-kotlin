@@ -1,5 +1,7 @@
 package linkedlist
 
+import java.util.LinkedList
+
 class NodeList(
     val data: Int,
     var next: NodeList? = null,
@@ -18,13 +20,40 @@ fun main() {
     nodeC.next = nodeD
     nodeD.next = nodeE
 
-    var count = 1
+    val nodeList = mutableListOf<Int>()
     var currentNode = head
     while (currentNode.next != null) {
+        nodeList.add(currentNode.data)
         currentNode = currentNode.next!!
-        count++
+        if (currentNode.next == null) {
+            nodeList.add(currentNode.data)
+        }
     }
 
-    print(count)
+    var newHead: NodeList? = null
+    var temp = newHead
+    nodeList.forEachIndexed { index, item ->
+        if (newHead == null) {
+            newHead = NodeList(item)
+        }
+        temp = newHead?.next
+        newHead = temp
+//        if (index < nodeList.lastIndex)
+            newHead?.next = NodeList(item)
+    }
+
+    var printed: NodeList? = null
+    var next = newHead
+    while (next != null) {
+
+        printed = next
+        next = printed.next
+        println(printed.data)
+    }
+
+
+    println(nodeList)
+    println(printed)
+//    print(count)
 
 }
