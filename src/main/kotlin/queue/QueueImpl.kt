@@ -23,14 +23,24 @@ class QueueImpl<T> : Queue<T> {
 }
 
 fun main() {
-    val queue = QueueImpl<Char>()
-    queue.enqueue('D')
-    queue.enqueue('S')
-    queue.enqueue('A')
-    queue.enqueue('L')
-    queue.enqueue('G')
+    val queue = QueueImpl<String>().apply {
+        enqueue("Vincent")
+        enqueue("Remel")
+        enqueue("Lukiih")
+        enqueue("Allison")
+    }
     println(queue)
-    queue.dequeue()
+    println("=====BoardGame========")
+    queue.nextPlayer()
     println(queue)
-    println("next is ${queue.peek()}")
+    queue.nextPlayer()
+    println(queue)
+    queue.nextPlayer()
+    println(queue)
+}
+
+fun <T> QueueImpl<T>.nextPlayer(): T? {
+    val person = this.dequeue() ?: return null
+    this.enqueue(person)
+    return person
 }
