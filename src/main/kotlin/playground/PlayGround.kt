@@ -1,7 +1,7 @@
 package playground
 
 fun main() {
-    val data = "saya suka main bola"
+    val data = "😂 🙏 😎 main 🦶🏻"
     val middle = data.length / 2
 
     val left = data.substring(0..middle)
