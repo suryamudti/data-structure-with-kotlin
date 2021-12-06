@@ -1,5 +1,7 @@
 package binarytree
 
+import kotlin.math.max
+
 typealias Visitor<T> = (T) -> Unit
 
 class BinaryNode<T>(val value: T) {
@@ -45,6 +47,25 @@ class BinaryNode<T>(val value: T) {
         visit(value)
     }
 
+    fun height(node: BinaryNode<T>? = this): Int {
+        return node?.let { 1 + max(height(node.leftChild), height(node.rightChild)) } ?: -1
+    }
+
+    val isBinarySearchTree: Boolean
+        get() = isBST(this, min = null, max = null)
+
+    fun isBST(tree: BinaryNode<T>?, min: T?, max: T?): Boolean {
+        tree ?: return true
+
+        if (min != null && tree.value as Int <= min as Int) {
+            return false
+        } else if (max != null && tree.value as Int > max as Int) {
+            return false
+        }
+
+        return isBST(tree.leftChild, min, tree.value) && isBST(tree.rightChild, tree.value, max)
+    }
+
 }
 
 fun main() {
@@ -61,10 +82,6 @@ fun main() {
     seven.rightChild = nine
     nine.leftChild = eight
 
-    val tree = seven
-
-    print(tree)
-    tree.traversePostOrder {
-        println(it)
-    }
+    val data = listOf(10, 12, 30, 49, 30).binarySearch (element = 30)
+    println(data)
 }

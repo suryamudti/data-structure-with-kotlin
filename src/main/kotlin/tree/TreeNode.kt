@@ -6,63 +6,38 @@ typealias Visitor<T> = (TreeNode<T>) -> Unit
 
 class TreeNode<T>(val value: T) {
 
-    private val children: MutableList<TreeNode<T>> = mutableListOf()
-    fun add(child: TreeNode<T>) = children.add(child)
+    val children = mutableListOf<TreeNode<T>>()
 
-    fun forEachDepthFirst(visit: Visitor<T>) {
-        visit(this)
+    fun add(node: TreeNode<T>) = children.add(node)
+
+    fun forEachDeepFirst(visitor: Visitor<T>) {
+        visitor(this)
         children.forEach {
-            it.forEachDepthFirst(visit)
+            it.forEachDeepFirst(visitor)
         }
     }
 
-    fun forEachLevelOrder(visit: Visitor<T>) {
-        visit(this)
+    fun forEachLevel(visitor: Visitor<T>) {
+        visitor(this)
         val queue = QueueImpl<TreeNode<T>>()
         children.forEach {
             queue.enqueue(it)
         }
         var node = queue.dequeue()
         while (node != null) {
-            visit(node)
+            visitor(node)
             node.children.forEach { queue.enqueue(it) }
-
             node = queue.dequeue()
         }
     }
 
     fun search(value: T): TreeNode<T>? {
         var result: TreeNode<T>? = null
-        forEachDepthFirst {
-            if (it.value == value) {
+        forEachLevel {
+            if (it.value == value)
                 result = it
-                println("fount value is ${it.value}")
-            }
         }
         return result
-    }
-
-    fun printEachLevel() {
-        val queue = QueueImpl<TreeNode<T>>()
-        var nodesLeftInCurrentLevel = 0
-
-        queue.enqueue(this)
-        while (queue.isEmpty.not()) {
-            nodesLeftInCurrentLevel = queue.count
-
-            while (nodesLeftInCurrentLevel > 0) {
-                val node = queue.dequeue()
-                if (node != null) {
-                    println("${node.value}")
-
-                    node.children.forEach { queue.enqueue(it) }
-                    nodesLeftInCurrentLevel--
-                } else {
-                    break
-                }
-            }
-            println(nodesLeftInCurrentLevel)
-        }
     }
 }
 
@@ -109,11 +84,12 @@ fun makeBeverageTree(): TreeNode<String> {
 fun main() {
     val tree = makeBeverageTree()
 
-//    tree.forEachDepthFirst {
-//        println(it.value)
-//    }
+    tree.forEachLevel {
+        println(it.value)
+    }
+    var hot = tree.search("hot")
 
-    tree.printEachLevel()
+//    tree.printEachLevel()
 
 //    println(tree.search("ginger ae")?.value ?: error("error bro"))
 
