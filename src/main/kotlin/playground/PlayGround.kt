@@ -1,11 +1,24 @@
 package playground
 
 fun main() {
-    val data = "😂 🙏 😎 main 🦶🏻"
-    val middle = data.length / 2
+    println(wordPattern("abba", "dog dog dog dog"))
+}
 
-    val left = data.substring(0..middle)
-    val right = data.substring(middle..data.lastIndex)
-    println(left)
-    println(right)
+fun wordPattern(pattern: String, s: String): Boolean {
+    val splittedWord = s.split(" ")
+    if (splittedWord.isEmpty() || pattern.isEmpty()) return false
+    if (splittedWord.size != pattern.length) return false
+
+    val collectedPattern = mutableMapOf<Char, String>()
+    pattern.forEachIndexed { index, item ->
+        if (collectedPattern.keys.contains(item)) {
+            if (collectedPattern[item] != splittedWord[index]) {
+                return false
+            }
+        } else {
+            collectedPattern[item] = splittedWord[index]
+        }
+    }
+
+    return true
 }
