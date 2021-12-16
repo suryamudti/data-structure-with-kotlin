@@ -46,7 +46,41 @@ class AdjacencyList<T> : Graph<T> {
             }
         }
     }
+
+    fun numberOfPaths(
+        source: Vertex<T>,
+        destination: Vertex<T>
+    ): Int {
+        val numbersOfPaths = Ref(0)
+        val visited: MutableSet<Vertex<T>> = mutableSetOf()
+        paths(source, destination, visited, numbersOfPaths)
+        return numbersOfPaths.value
+    }
+
+    fun paths(
+        source: Vertex<T>,
+        destination: Vertex<T>,
+        visited: MutableSet<Vertex<T>>,
+        pathCount: Ref<Int>
+    ) {
+        visited.add(source)
+        println("${source.data} to ${destination.data}")
+        if (source == destination) {
+            pathCount.value += 1
+        } else {
+            val neighbors = edges(source)
+            neighbors.forEach { edge ->
+                if (edge.destination !in visited) {
+                    paths(edge.destination, destination, visited, pathCount)
+                }
+            }
+        }
+        visited.remove(source)
+    }
 }
+
+data class Ref<T>(var value: T)
+
 
 fun main() {
     val graph = AdjacencyList<String>()

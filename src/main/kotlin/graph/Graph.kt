@@ -20,7 +20,7 @@ interface Graph<T> {
         edge: EdgeType,
         source: Vertex<T>,
         destination: Vertex<T>,
-        weight: Double?
+        weight: Double? = null
     )
 
     fun edges(source: Vertex<T>): ArrayList<Edge<T>>
