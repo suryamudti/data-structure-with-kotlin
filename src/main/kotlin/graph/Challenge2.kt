@@ -20,7 +20,6 @@ fun main() {
     graph.add(EdgeType.UNDIRECTED, ruiz, sun)
     graph.add(EdgeType.UNDIRECTED, ruiz, vincent)
 
-
     graph.add(EdgeType.UNDIRECTED, patrick, cole)
     graph.add(EdgeType.UNDIRECTED, patrick, kerry)
 
@@ -28,9 +27,6 @@ fun main() {
     graph.add(EdgeType.UNDIRECTED, cole, vincent)
 
     println(graph)
-
-
-
 
 
 }

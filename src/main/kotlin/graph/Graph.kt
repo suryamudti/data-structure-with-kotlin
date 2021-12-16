@@ -16,14 +16,14 @@ interface Graph<T> {
         weight: Double?
     )
 
+    fun edges(source: Vertex<T>): ArrayList<Edge<T>>
+
     fun add(
-        edge: EdgeType,
+        edgeType: EdgeType,
         source: Vertex<T>,
         destination: Vertex<T>,
         weight: Double? = null
     )
-
-    fun edges(source: Vertex<T>): ArrayList<Edge<T>>
 
     fun weight(
         source: Vertex<T>,
@@ -44,5 +44,5 @@ data class Vertex<T>(
 data class Edge<T>(
     val source: Vertex<T>,
     val destination: Vertex<T>,
-    val weight: Double? = null
+    val weight: Double?
 )

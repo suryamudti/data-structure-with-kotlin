@@ -1,5 +1,7 @@
 package graph
 
+import queue.QueueImpl
+
 class AdjacencyList<T> : Graph<T> {
 
     private val adjacencyList: HashMap<Vertex<T>, ArrayList<Edge<T>>> = HashMap()
@@ -36,6 +38,8 @@ class AdjacencyList<T> : Graph<T> {
             it.destination == destination
         }?.weight
     }
+
+    fun getAllVertex() = adjacencyList
 
     override fun toString(): String {
         return buildString { // 1
@@ -77,6 +81,30 @@ class AdjacencyList<T> : Graph<T> {
         }
         visited.remove(source)
     }
+
+    fun breadthFirstSearch(source: Vertex<T>): ArrayList<Vertex<T>> {
+        val queue = QueueImpl<Vertex<T>>()
+        val enqueued = ArrayList<Vertex<T>>()
+        val visited = ArrayList<Vertex<T>>()
+
+        queue.enqueue(source)
+        enqueued.add(source)
+
+        while (true) {
+            val vertex = queue.dequeue() ?: break
+            visited.add(vertex)
+
+            val neighborEdges = edges(vertex)
+            neighborEdges.forEach {
+                if (!enqueued.contains(it.destination)) {
+                    queue.enqueue(it.destination)
+                    enqueued.add(it.destination)
+                }
+            }
+        }
+
+        return visited
+    }
 }
 
 data class Ref<T>(var value: T)
@@ -101,8 +129,10 @@ fun main() {
     graph.add(EdgeType.UNDIRECTED, hongKong, sanFrancisco, 600.0)
     graph.add(EdgeType.UNDIRECTED, detroit, austinTexas, 50.0)
     graph.add(EdgeType.UNDIRECTED, austinTexas, washingtonDC, 292.0)
-    graph.add(EdgeType.UNDIRECTED, sanFrancisco, washingtonDC,
-        337.0)
+    graph.add(
+        EdgeType.UNDIRECTED, sanFrancisco, washingtonDC,
+        337.0
+    )
     graph.add(EdgeType.UNDIRECTED, washingtonDC, seattle, 277.0)
     graph.add(EdgeType.UNDIRECTED, sanFrancisco, seattle, 218.0)
     graph.add(EdgeType.UNDIRECTED, austinTexas, sanFrancisco, 297.0)
