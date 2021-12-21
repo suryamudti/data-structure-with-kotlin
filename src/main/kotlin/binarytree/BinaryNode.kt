@@ -82,6 +82,6 @@ fun main() {
     seven.rightChild = nine
     nine.leftChild = eight
 
-    val data = listOf(10, 12, 30, 49, 30).binarySearch (element = 30)
+    val data = listOf(10, 12, 30, 49, 30).indexOf(30)
     println(data)
 }
