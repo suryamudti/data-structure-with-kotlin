@@ -1,13 +1,34 @@
 package playground
 
+import java.util.*
+
 fun main() {
 //    print(canConstruct("aab", "baa"))
 //    println(reverseStr("abcdefg", 2))
 
-    println(testArray(intArrayOf(1,2,3,4,5,6,7), 3).toList())
+//    println(testArray(intArrayOf(1,2,3,4,5,6,7), 3).toList())
 
 //    println(firstUniqChar("loveleetcode"))
 //    println("loveleetcode".contains('a'))
+//    println(intersect(intArrayOf(4,9,5), intArrayOf(9,4,9,8,4)).toList())
+    val list = listOf(10, 8, 18, 45, 63, 49, 88, 15, 62)
+    val linkedList = LinkedList<Int>(list)
+    for (i in linkedList) {
+        println("List Item $i")
+    }
+}
+
+fun intersect(nums1: IntArray, nums2: IntArray): IntArray {
+    val map1 = nums1.groupBy { it }.map { it.key to it.value.size }.toMap()
+    val map2 = nums2.groupBy { it }.map { it.key to it.value.size }.toMap()
+
+    val result = mutableListOf<Int>()
+
+    map1.keys.intersect(map2.keys).forEach {
+            num -> repeat (minOf(map1[num]!!, map2[num]!!)) { result.add(num) }
+    }
+
+    return result.toIntArray()
 }
 
 fun firstUniqChar(s: String): Int {
